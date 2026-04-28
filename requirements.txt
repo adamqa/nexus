@@ -1,0 +1,31 @@
+# Core web framework
+streamlit>=1.28.0
+
+# Data manipulation
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+
+# Interactive visualizations
+plotly>=5.17.0
+
+# Excel file handling
+openpyxl>=3.1.0
+
+# HTTP requests (pour Ollama)
+requests>=2.31.0
+
+# Text-to-Speech (pour Nexus Voice AI)
+gTTS>=2.3.0
+
+# PDF generation (pour Executive Report)
+reportlab>=4.0.0
+
+# Optional but recommended for better performance
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# For advanced Excel features
+xlrd>=2.0.0
