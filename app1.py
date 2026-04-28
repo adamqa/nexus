@@ -1276,10 +1276,10 @@ _BOOT_HTML = """<!DOCTYPE html>
   <div class="c tl"></div><div class="c tr"></div>
   <div class="c bl"></div><div class="c br"></div>
   <div class="stage" id="stage">
-    <div class="eyebrow">&#x2B21; &nbsp; INITIALIZING NEXUS INTELLIGENCE PLATFORM &nbsp; &#x2B21;</div>
+    <div class="eyebrow">&#x2B21; &nbsp; INITIALIZING STOCK INTELLIGENCE PLATFORM &nbsp; &#x2B21;</div>
     <div class="hex">&#x2B21;</div>
-    <div class="title">NEXUS</div>
-    <div class="sub">AI INVENTORY RISK COCKPIT &nbsp;&middot;&nbsp; v4.0 &nbsp;&middot;&nbsp; AUTHORIZED ACCESS ONLY</div>
+    <div class="title">STOCK AI PRO</div>
+    <div class="sub">SMART INVENTORY COMMAND CENTER &nbsp;&middot;&nbsp; v4.0 &nbsp;&middot;&nbsp; AUTHORIZED ACCESS ONLY</div>
     <div class="bar-wrap"><div class="bar-fill"></div></div>
     <div class="status" id="st">LOADING CORE MODULES...</div>
   </div>
@@ -1359,9 +1359,9 @@ def login_screen():
         st.markdown("""
         <div class="login-container">
             <div class="login-hex-icon">⬡</div>
-            <div class="login-eyebrow">⬡ NEXUS INTELLIGENCE PLATFORM</div>
-            <div class="login-title">NEXUS</div>
-            <div class="login-subtitle">AI Inventory Risk Cockpit · Authorized Personnel Only</div>
+            <div class="login-eyebrow">⬡ STOCK INTELLIGENCE PLATFORM</div>
+            <div class="login-title">STOCK AI PRO</div>
+            <div class="login-subtitle">Smart Inventory Command Center · Authorized Personnel Only</div>
             <div class="login-divider"></div>
         </div>
         """, unsafe_allow_html=True)
@@ -1877,13 +1877,13 @@ with st.sidebar:
                 background: linear-gradient(135deg, #FFFFFF, #00D9FF, #008CFF);
                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
                 letter-spacing: 0.06em; line-height: 1.1;
-            '>NEXUS</div>
+            '>STOCK AI</div>
             <div style='
                 font-size: 0.56rem; color: #3A6080;
                 letter-spacing: 0.2em; text-transform: uppercase;
                 font-weight: 700; font-family: Orbitron, sans-serif;
                 margin-top: 2px;
-            '>AI COCKPIT</div>
+            '>SMART INVENTORY</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -2164,22 +2164,155 @@ elif page == "Risk Classification":
 #   INVENTORY POLICY
 # ============================================================
 elif page == "Inventory Policy":
+
+    # =========================================================
+    #  PREMIUM CSS — scoped to Inventory Policy only
+    # =========================================================
+    st.markdown("""
+    <style>
+    /* ── KPI glassmorphism cards ── */
+    .ip-kpi {
+        background: linear-gradient(135deg,rgba(11,18,32,0.96),rgba(8,15,26,0.92));
+        border: 1px solid rgba(0,217,255,0.14);
+        border-top: 2px solid rgba(0,217,255,0.55);
+        border-radius: 16px;
+        padding: 20px 22px 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.45),
+                    inset 0 1px 0 rgba(0,217,255,0.06);
+        transition: transform .22s ease, box-shadow .22s ease;
+        text-align: center;
+    }
+    .ip-kpi:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 16px 44px rgba(0,0,0,0.55),
+                    0 0 24px rgba(0,217,255,0.12);
+    }
+    .ip-kpi-val {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.85rem; font-weight: 800;
+        background: linear-gradient(135deg,#fff 0%,#00D9FF 60%,#008CFF 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 0 10px rgba(0,217,255,0.4));
+        line-height: 1.1; margin-bottom: 6px;
+    }
+    .ip-kpi-lbl {
+        font-size: .58rem; font-weight: 700;
+        letter-spacing: .22em; text-transform: uppercase;
+        color: rgba(90,122,154,0.9);
+    }
+    /* ── Section separator ── */
+    .ip-sep {
+        height: 1px;
+        background: linear-gradient(90deg,transparent,rgba(0,217,255,0.18),transparent);
+        margin: 28px 0;
+    }
+    /* ── Section label ── */
+    .ip-sec {
+        font-family: 'Orbitron', sans-serif;
+        font-size: .6rem; font-weight: 800;
+        letter-spacing: .24em; text-transform: uppercase;
+        color: #00D9FF; text-shadow: 0 0 12px rgba(0,217,255,0.5);
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 16px;
+    }
+    .ip-sec::after {
+        content: ''; flex: 1; height: 1px;
+        background: linear-gradient(90deg,rgba(0,217,255,0.3),transparent);
+    }
+    /* ── SKU KPI mini cards ── */
+    .ip-sku-card {
+        background: rgba(8,15,26,0.92);
+        border: 1px solid rgba(0,217,255,0.1);
+        border-radius: 12px; padding: 16px 14px 12px;
+        text-align: center;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+        transition: transform .18s ease;
+    }
+    .ip-sku-card:hover { transform: translateY(-3px); }
+    /* ── Recommendation box ── */
+    .ip-rec {
+        background: linear-gradient(135deg,rgba(11,18,32,0.97),rgba(6,12,24,0.95));
+        border: 1px solid rgba(0,217,255,0.1);
+        border-left: 3px solid #00D9FF;
+        border-radius: 14px; padding: 22px 26px;
+        box-shadow: 0 6px 28px rgba(0,0,0,0.4),
+                    inset 0 1px 0 rgba(0,217,255,0.04);
+    }
+    .ip-rec-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: .6rem; font-weight: 800;
+        letter-spacing: .2em; text-transform: uppercase;
+        color: #00D9FF; margin-bottom: 14px;
+    }
+    .ip-rec-item {
+        display: flex; gap: 10px; align-items: flex-start;
+        margin-bottom: 9px;
+    }
+    .ip-rec-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+        flex-shrink: 0; margin-top: 5px;
+    }
+    .ip-rec-text {
+        font-size: .8rem; color: #94A3B8; line-height: 1.55;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # ── Hero ──────────────────────────────────────────────────
     st.markdown(
         "<div class='nexus-hero'>"
-        "<div class='nexus-badge'><span class='dot'></span>Policy Engine · Optimization Active</div>"
+        "<div class='nexus-badge'><span class='dot'></span>"
+        "Policy Engine · Optimization Active</div>"
         "<div class='nexus-hero-title'>Differentiated Inventory Policy</div>"
-        "<div class='nexus-hero-sub'>Safety stock optimization · Reorder point strategy · Service level targets</div>"
+        "<div class='nexus-hero-sub'>Safety stock optimization · "
+        "Reorder point strategy · Service level targets</div>"
         "</div>",
         unsafe_allow_html=True
     )
 
+    # ── Data ──────────────────────────────────────────────────
     res_p = st.session_state.results_p
     policy_summary = res_p.groupby('risk_class').agg({
-        'safety_stock':   'mean',
-        'reorder_point':  'mean',
-        'Z':              'first'
+        'safety_stock':  'mean',
+        'reorder_point': 'mean',
+        'Z':             'first'
     }).round(2)
 
+    # =========================================================
+    #  PREMIUM KPI CARDS
+    # =========================================================
+    st.markdown('<div class="ip-sec">&#x2295; Portfolio at a Glance</div>',
+                unsafe_allow_html=True)
+
+    _ip_total  = len(res_p)
+    _ip_avg_ss = int(round(res_p['safety_stock'].mean()))   if 'safety_stock'  in res_p.columns else "N/A"
+    _ip_avg_rp = int(round(res_p['reorder_point'].mean()))  if 'reorder_point' in res_p.columns else "N/A"
+    _ip_r1_pct = (
+        f"{round(100*len(res_p[res_p['risk_class']=='R1'])/_ip_total,1)}%"
+        if 'risk_class' in res_p.columns and _ip_total else "N/A"
+    )
+
+    _ipk1, _ipk2, _ipk3, _ipk4 = st.columns(4)
+    for _col, _val, _lbl in [
+        (_ipk1, f"{_ip_total:,}",   "Total SKU"),
+        (_ipk2, f"{_ip_avg_ss:,}",  "Avg Safety Stock"),
+        (_ipk3, f"{_ip_avg_rp:,}",  "Avg Reorder Point"),
+        (_ipk4, _ip_r1_pct,         "High Risk SKU %"),
+    ]:
+        _col.markdown(
+            f"<div class='ip-kpi'>"
+            f"<div class='ip-kpi-val'>{_val}</div>"
+            f"<div class='ip-kpi-lbl'>{_lbl}</div>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+
+    st.markdown('<div class="ip-sep"></div>', unsafe_allow_html=True)
+
+    # =========================================================
+    #  EXISTING CHARTS (unchanged)
+    # =========================================================
     col_p1, col_p2 = st.columns(2)
     with col_p1:
         st.subheader("Safety Stock Strategy")
@@ -2203,6 +2336,210 @@ elif page == "Inventory Policy":
             "Review":        ["Continuous",     "Weekly",    "Bi-weekly",      "Monthly"]
         }
         st.table(pd.DataFrame(sl_data))
+
+    st.markdown('<div class="ip-sep"></div>', unsafe_allow_html=True)
+
+    # =========================================================
+    #  DONUT CHART — Policy Distribution
+    # =========================================================
+    st.markdown('<div class="ip-sec">&#x25C8; Policy Distribution</div>',
+                unsafe_allow_html=True)
+
+    if 'risk_class' in res_p.columns:
+        _ip_rc   = res_p['risk_class'].value_counts().reset_index()
+        _ip_rc.columns = ['Risk Class', 'Count']
+        _ip_fig_donut = px.pie(
+            _ip_rc, names='Risk Class', values='Count',
+            hole=0.58,
+            color='Risk Class',
+            color_discrete_map={
+                'R1': '#DC2626', 'R2': '#F59E0B',
+                'R3': '#00D9FF', 'R4': '#94A3B8'
+            },
+            title='SKU Distribution by Risk Policy'
+        )
+        _ip_fig_donut.update_traces(
+            textinfo='percent+label',
+            textfont=dict(size=11, color='white'),
+            marker=dict(line=dict(color='#050B14', width=2)),
+            pull=[0.04, 0.02, 0, 0],
+            hovertemplate='<b>%{label}</b><br>%{value} SKUs (%{percent})<extra></extra>'
+        )
+        _ip_fig_donut.update_layout(
+            **PLOTLY_LAYOUT,
+            
+            annotations=[dict(
+                text=f'<b>{_ip_total}</b><br><span style="font-size:11px">SKUs</span>',
+                x=0.5, y=0.5, font=dict(size=15, color='#E8F3FF'),
+                showarrow=False
+            )]
+        )
+        _dc1, _dc2, _dc3 = st.columns([0.5, 2, 0.5])
+        with _dc2:
+            st.plotly_chart(_ip_fig_donut, use_container_width=True)
+
+    st.markdown('<div class="ip-sep"></div>', unsafe_allow_html=True)
+
+    # =========================================================
+    #  SKU INVENTORY POLICY EXPLORER
+    # =========================================================
+    st.markdown('<div class="ip-sec">&#x2B61; SKU Inventory Policy Explorer</div>',
+                unsafe_allow_html=True)
+
+    _ex_all = sorted(res_p['product_id'].dropna().astype(str).unique().tolist())
+
+    _ex_search = st.text_input(
+        "Search SKU",
+        placeholder="Type SKU name or ID...",
+        key="sku_ex_search",
+    )
+    _ex_filtered = (
+        [s for s in _ex_all if _ex_search.strip().lower() in s.lower()]
+        if _ex_search.strip() else _ex_all
+    )
+
+    if not _ex_filtered:
+        st.warning("No SKU found matching your search.")
+        _ex_choice = ""
+    else:
+        _ex_choice = st.selectbox(
+            "Select SKU",
+            options=[""] + _ex_filtered,
+            format_func=lambda x: "Choose a SKU..." if x == "" else x,
+            key="sku_ex_select",
+        )
+
+    # ── Mini KPI dashboard ────────────────────────────────────
+    if _ex_choice:
+        _ex_row = res_p[res_p['product_id'].astype(str) == _ex_choice]
+
+        if _ex_row.empty:
+            st.info("No data found for this SKU.")
+        else:
+            _ex_r = _ex_row.iloc[0]
+
+            def _exv(col, fmt=None):
+                if col not in _ex_r.index or _ex_r[col] is None:
+                    return "N/A"
+                v = _ex_r[col]
+                try:
+                    if fmt == "int":   return int(round(float(v)))
+                    if fmt == "float": return round(float(v), 2)
+                except Exception:
+                    return "N/A"
+                return v
+
+            _SL_MAP  = {"R1":"99.9%","R2":"98.0%","R3":"95.0%","R4":"90.0%"}
+            _RC_COL  = {"R1":"#DC2626","R2":"#F59E0B","R3":"#00D9FF","R4":"#94A3B8"}
+            _rc_val  = str(_exv("risk_class"))
+            _rc_col  = _RC_COL.get(_rc_val, "#00D9FF")
+            _rrs_val = _exv("RRS", "float")
+
+            st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
+
+            # Row 1 — 4 cards
+            _m1, _m2, _m3, _m4 = st.columns(4)
+            for _col, _v, _l, _c in [
+                (_m1, _rc_val,                    "Risk Policy",    _rc_col),
+                (_m2, _exv("safety_stock", "int"), "Safety Stock",  "#00D9FF"),
+                (_m3, _exv("reorder_point","int"), "Reorder Point", "#00D9FF"),
+                (_m4, _exv("avg_lead_time","int"), "Lead Time (d)", "#00D9FF"),
+            ]:
+                _col.markdown(
+                    f"<div class='ip-sku-card'>"
+                    f"<div style='font-family:Orbitron,sans-serif;font-size:1.4rem;"
+                    f"font-weight:800;color:{_c};margin-bottom:5px;"
+                    f"text-shadow:0 0 12px {_c}66;'>{_v}</div>"
+                    f"<div style='font-size:.56rem;font-weight:700;letter-spacing:.18em;"
+                    f"text-transform:uppercase;color:rgba(90,122,154,0.9);'>{_l}</div>"
+                    f"</div>",
+                    unsafe_allow_html=True
+                )
+
+            st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+
+            # Row 2 — 2 cards
+            _m5, _m6, _mpad = st.columns([1, 1, 2])
+            _rrs_delta = (
+                "Critical" if _rrs_val != "N/A" and float(_rrs_val) > 7 else
+                "High"     if _rrs_val != "N/A" and float(_rrs_val) > 5 else
+                "Medium"   if _rrs_val != "N/A" and float(_rrs_val) > 3 else
+                "Low"      if _rrs_val != "N/A" else None
+            )
+            _m5.metric("RRS Score",    _rrs_val,
+                       delta=_rrs_delta, delta_color="off")
+            _m6.metric("Service Level", _SL_MAP.get(_rc_val, "N/A"))
+
+            st.markdown("<div style='height:18px'></div>", unsafe_allow_html=True)
+
+            # =========================================================
+            #  SMART RECOMMENDATION BOX
+            # =========================================================
+            _rrs_f    = float(_rrs_val) if _rrs_val != "N/A" else 0
+            _ss_f     = float(_exv("safety_stock",  "float"))                         if _exv("safety_stock","float") != "N/A" else 0
+            _lt_f     = float(_exv("avg_lead_time", "float"))                         if _exv("avg_lead_time","float") != "N/A" else 0
+
+            _recs = []
+
+            if _rc_val == "R1":
+                _recs.append(("#DC2626",
+                    f"<b style='color:#E8F3FF;'>Emergency protocol active.</b> "
+                    f"This SKU is Critical (R1). Maintain continuous review "
+                    f"and a 99.9% service level target at all times."))
+            elif _rc_val == "R2":
+                _recs.append(("#F59E0B",
+                    f"<b style='color:#E8F3FF;'>Weekly review recommended.</b> "
+                    f"High-risk profile requires proactive reorder triggers "
+                    f"and dual-supplier validation."))
+            elif _rc_val in ("R3","R4"):
+                _recs.append(("#10B981",
+                    f"<b style='color:#E8F3FF;'>Stable profile.</b> "
+                    f"Bi-weekly to monthly review cadence is sufficient. "
+                    f"Consider EOQ optimization to reduce holding cost."))
+
+            if _rrs_f > 7:
+                _recs.append(("#DC2626",
+                    f"<b style='color:#E8F3FF;'>RRS Score {_rrs_val} — Critical threshold.</b> "
+                    f"Escalate to procurement director and activate "
+                    f"emergency safety stock buffer (+30-50%)."))
+            elif _rrs_f > 5:
+                _recs.append(("#F59E0B",
+                    f"<b style='color:#E8F3FF;'>RRS Score {_rrs_val} — Elevated risk.</b> "
+                    f"Review supplier lead time agreements and consider "
+                    f"increasing safety stock by 15-25%."))
+
+            if _lt_f > 30:
+                _recs.append(("#9B5CF6",
+                    f"<b style='color:#E8F3FF;'>Lead time is {int(_lt_f)} days.</b> "
+                    f"Long replenishment cycle detected. "
+                    f"Consider pre-positioning stock closer to demand points."))
+
+            if _ss_f == 0:
+                _recs.append(("#F59E0B",
+                    "<b style='color:#E8F3FF;'>Zero safety stock detected.</b> "
+                    "This SKU has no buffer against demand variability. "
+                    "Immediate recalibration of safety stock formula is advised."))
+
+            if not _recs:
+                _recs.append(("#10B981",
+                    "<b style='color:#E8F3FF;'>No critical signals detected.</b> "
+                    "This SKU is within normal operating parameters. "
+                    "Continue standard monitoring cadence."))
+
+            _items_html = "".join([
+                f"<div class='ip-rec-item'>"
+                f"<div class='ip-rec-dot' style='background:{c};box-shadow:0 0 6px {c}88;'></div>"
+                f"<div class='ip-rec-text'>{t}</div>"
+                f"</div>"
+                for c, t in _recs
+            ])
+            st.markdown(
+                f"<div class='ip-rec'>"
+                f"<div class='ip-rec-title'>&#x2B21; AI Smart Recommendation</div>"
+                f"{_items_html}"
+                f"</div>",
+                unsafe_allow_html=True
+            )
 
 # ============================================================
 #   ANOMALY DETECTION
